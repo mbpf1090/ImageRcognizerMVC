@@ -1,0 +1,13 @@
+﻿@model UploadModel
+<div class="container">
+    <form asp-controller="Upload" asp-action="index" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label for="fileUpload">Select a png or jpg</label>
+            <input type="file" name="photo" asp-for="Photo" class="form-control-file" id="fileUpload"/>
+            <span asp-validation-for="Photo" class="text-danger"></span>
+        </div>
+        <button type="submit" value="Save" class="btn">Submit</button>
+    </form>
+</div>
+

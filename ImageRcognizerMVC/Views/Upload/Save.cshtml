@@ -1,0 +1,33 @@
+﻿@model VisionData
+
+@{
+    var base64 = Convert.ToBase64String(Model.ImageBytes);
+    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+    var audioFile = String.Format("data:audio/mpeg;base64,{0}", Convert.ToBase64String(Model.Audio));
+}
+
+<div class="container">
+    <h1>Result</h1>
+    <div class="d-flex mt-5 justify-content-center">
+        <div class="card" style="width: 18rem; text-align:center; display: inline-block;">
+            <img class="card-img-top mx-auto" src="@imgSrc">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Filename</h5>
+                <p class="card-text">
+                    🤮 @Model.GoreScore.ToString("0.00")
+                    🍆 @Model.AdultScore.ToString("0.00")
+                </p>
+                <p class="card-text">🌭 @(Model.Tags.Contains("hotdog") ? "YES!" : "Noooo")</p>
+            </div>
+        </div>
+    </div>
+    <span id="audio"></span>
+</div>
+
+@section Scripts
+{
+    <script>
+        $('#audio').html('<audio autoplay><source src="@audioFile"></audio>');
+    </script>
+}
