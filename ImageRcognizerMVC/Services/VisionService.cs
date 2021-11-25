@@ -24,10 +24,7 @@ namespace ImageRcognizerMVC.Services
 
         public async Task<ImageAnalysis> GetVisionInformation(byte[] b)
         {
-            // Create a client
             ComputerVisionClient client = Authenticate(configuration.GetSection("Vision").GetSection("endpoint").Value, configuration.GetSection("Vision").GetSection("subscriptionKey").Value);
-
-            // Analyze an image to get features and other properties.
             return await AnalyzeImageUrl(client, b);
         }
 
@@ -38,9 +35,6 @@ namespace ImageRcognizerMVC.Services
         }
         private async Task<ImageAnalysis> AnalyzeImageUrl(ComputerVisionClient client, byte[] b)
         {
-
-            // Creating a list that defines the features to be extracted from the image. 
-
             List<VisualFeatureTypes?> features = new List<VisualFeatureTypes?>()
                 {
                     VisualFeatureTypes.Categories, VisualFeatureTypes.Description,

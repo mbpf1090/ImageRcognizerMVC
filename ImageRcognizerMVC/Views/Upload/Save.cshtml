@@ -1,4 +1,7 @@
 ﻿@model VisionData
+@{
+    ViewBag.Title = "Image Analysis";
+}
 
 @{
     var base64 = Convert.ToBase64String(Model.ImageBytes);
@@ -19,10 +22,62 @@
                     🍆 @Model.AdultScore.ToString("0.00")
                 </p>
                 <p class="card-text">🌭 @(Model.Tags.Contains("hotdog") ? "YES!" : "Noooo")</p>
+                <button class="btn btn-sm btn-dark details" data-toggle="modal" data-target="#detailsModal">Details</button>
             </div>
         </div>
     </div>
     <span id="audio"></span>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Visual Analysis Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Categories</h4>
+                <ul class="list-group">
+                    @foreach (var cat in Model.Categories)
+                    {
+                        <li class="list-group-item">@cat</li>
+                    }
+                </ul>
+                <h4>Tags</h4>
+                <ul class="list-group">
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <li class="list-group-item">@tag</li>
+                    }
+                </ul>
+                <h4>Faces</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Age</th>
+                            <th scope="col">Gender</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var face in Model.Faces)
+                        {
+                            <tr>
+                                <td>@face.Age</td>
+                                <td>@face.Gender</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts

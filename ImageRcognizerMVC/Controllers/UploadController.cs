@@ -1,5 +1,6 @@
 ﻿using ImageRcognizerMVC.Models;
 using ImageRcognizerMVC.Services;
+using ImageRecognizerMVC.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
@@ -46,7 +47,8 @@ namespace ImageRcognizerMVC.Controllers
                     result = await visionService.GetVisionInformation(b);
                 }
 
-                var audioResult = await speechService.TextToSpeech($"This is maybe a {result.Tags.First().Name}!");
+                //var audioResult = await speechService.TextToSpeech($"This is maybe a {result.Tags.First().Name}!");
+                var audioResult = await speechService.TextToSpeech($"{result.Description.Captions.First().Text ?? "No description available"}!");
                 audio = audioResult.AudioData;
 
             } catch (Exception)
@@ -56,6 +58,14 @@ namespace ImageRcognizerMVC.Controllers
 
             if (result != null)
             {
+                List<Face> faces = new List<Face>();
+                if (result.Faces.Count > 0)
+                {
+                    foreach (var face in result.Faces)
+                    {
+                        faces.Add(new Face { Age = face.Age, Gender = face.Gender.ToString() });
+                    }
+                }
                 VisionData model = new VisionData() {
                     Filename = data.Photo.FileName,
                     Categories = result.Categories.Select(b => b.Name).ToList(),
@@ -63,7 +73,8 @@ namespace ImageRcognizerMVC.Controllers
                     ImageBytes = b,
                     AdultScore = result.Adult.AdultScore,
                     GoreScore = result.Adult.GoreScore,
-                    Audio = audio
+                    Audio = audio,
+                    Faces = faces
             };
                 
                 return View("Save", model);
