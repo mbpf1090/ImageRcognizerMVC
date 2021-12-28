@@ -13,6 +13,7 @@ Enter your keys for Azure Cognitive/Speech Services in User Secrets:
     "location": "<YOUR-LOCATION>"
   }
 }
+```
+
 ## Contributors:
 Daniel Arnauer, Paskal Sokal, Sebastian Weidele
-```
