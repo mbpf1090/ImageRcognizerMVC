@@ -24,7 +24,15 @@ namespace ImageRcognizerMVC.Services
 
         public async Task<ImageAnalysis> GetVisionInformation(byte[] b)
         {
-            ComputerVisionClient client = Authenticate(configuration.GetSection("Vision").GetSection("endpoint").Value, configuration.GetSection("Vision").GetSection("subscriptionKey").Value);
+            ComputerVisionClient client;
+            try { 
+            client = Authenticate(configuration.GetSection("Vision").GetSection("endpoint").Value, configuration.GetSection("Vision").GetSection("subscriptionKey").Value);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Subscription Keys for Azure not configured");
+            }
+
             return await AnalyzeImageUrl(client, b);
         }
 

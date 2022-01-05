@@ -15,7 +15,7 @@ namespace ImageRcognizerMVC.Models
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            List<string> supportedFiles = new List<string> { "png", "jpg" };
+            List<string> supportedFiles = new List<string> { "png", "jpg", "jpeg" };
             string extension = Path.GetExtension(Photo.FileName).Substring(1);
 
             if (!supportedFiles.Contains(extension))

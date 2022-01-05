@@ -18,8 +18,16 @@ namespace ImageRcognizerMVC.Services
         {
             this.configuration = configuration;
 
-            speechConfiguration = SpeechConfig.FromSubscription(configuration.GetSection("Speech").GetSection("subscriptionKey").Value, configuration.GetSection("Speech").GetSection("location").Value);
-            speechConfiguration.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Audio16Khz64KBitRateMonoMp3);
+            try
+            {
+
+                speechConfiguration = SpeechConfig.FromSubscription(configuration.GetSection("Speech").GetSection("subscriptionKey").Value, configuration.GetSection("Speech").GetSection("location").Value);
+                speechConfiguration.SetSpeechSynthesisOutputFormat(SpeechSynthesisOutputFormat.Audio16Khz64KBitRateMonoMp3);
+            } catch(Exception e)
+            {
+                throw new Exception("Subscription Keys for Azure not configured");
+            }
+
         }
 
         public async Task<SpeechSynthesisResult> TextToSpeech(string text)
